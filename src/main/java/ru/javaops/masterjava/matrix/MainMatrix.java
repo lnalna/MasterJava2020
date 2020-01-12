@@ -21,6 +21,7 @@ public class MainMatrix {
         double singleThreadSum0 = 0.;
         double singleThreadSum1 = 0.;
         double singleThreadSum2 = 0.;
+        double singleThreadSum3 = 0.;
         double concurrentThreadSum = 0.;
         int count = 1;
         while (count < 6) {
@@ -43,6 +44,12 @@ public class MainMatrix {
             out("SingleThreadSum2 time, sec: %.10f", duration);
             singleThreadSum2 += duration;
 
+            start = System.currentTimeMillis();
+            final int[][] matrixC3 = MatrixUtil.singleThreadMultiply3(matrixA, matrixB);
+            duration = (System.currentTimeMillis() - start) / 1000.;
+            out("SingleThreadSum3 time, sec: %.10f", duration);
+            singleThreadSum3 += duration;
+
 
            /* start = System.currentTimeMillis();
             final int[][] concurrentMatrixC = MatrixUtil.concurrentMultiply(matrixA, matrixB, executor);
@@ -63,12 +70,17 @@ public class MainMatrix {
                 System.err.println("Comparison matrixC0 and matrixC2 failed");
                 break;
             }
+            if (!MatrixUtil.compare(matrixC0, matrixC3)) {
+                System.err.println("Comparison matrixC0 and matrixC3 failed");
+                break;
+            }
             count++;
         }
         executor.shutdown();
         out("\nAverage SingleThreadSum0 / 5 time, sec: %.10f", singleThreadSum0 / 5.);
         out("\nAverage SingleThreadSum1 / 5 time, sec: %.10f", singleThreadSum1 / 5.);
         out("\nAverage SingleThreadSum2 / 5 time, sec: %.10f", singleThreadSum2 / 5.);
+        out("\nAverage SingleThreadSum3 / 5 time, sec: %.10f", singleThreadSum3 / 5.);
         //   out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
     }
 
