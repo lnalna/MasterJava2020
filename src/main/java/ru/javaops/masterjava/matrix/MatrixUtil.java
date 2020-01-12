@@ -19,7 +19,7 @@ public class MatrixUtil {
     }
 
     // TODO optimize by https://habrahabr.ru/post/114797/
-    public static int[][] singleThreadMultiply(int[][] matrixA, int[][] matrixB) {
+    public static int[][] singleThreadMultiply0(int[][] matrixA, int[][] matrixB) {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
 
@@ -33,6 +33,52 @@ public class MatrixUtil {
             }
         }
         return matrixC;
+    }
+
+
+    public static int[][] singleThreadMultiply1(int[][] matrixA, int[][] matrixB) {
+        final int matrixSize = matrixA.length;
+        final int[][] matrixC = new int[matrixSize][matrixSize];
+        final int[][] matrixBT = new int[matrixSize][matrixSize];
+
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                matrixBT[j][i] = matrixB[i][j];
+            }
+        }
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                int sum = 0;
+                for (int k = 0; k < matrixSize; k++) {
+                    sum += matrixA[i][k] * matrixBT[j][k];
+                }
+                matrixC[i][j] = sum;
+            }
+        }
+        return matrixC;
+    }
+
+    public static int[][] singleThreadMultiply2(int[][] matrixA, int[][] matrixB) {
+        final int matrixSize = matrixA.length;
+        final int[][] matrixC = new int[matrixSize][matrixSize];
+
+        for (int colB = 0; colB < matrixSize; colB++) {
+            final int[] columnB = new int[matrixSize];
+            for (int rowB = 0; rowB < matrixSize; rowB++) {
+                columnB[rowB] = matrixB[rowB][colB];
+            }
+
+            for (int rowA = 0; rowA < matrixSize; rowA++) {
+                int sum = 0;
+                final int[] rowMatrixA = matrixA[rowA];
+                for (int k = 0; k < matrixSize; k++) {
+                    sum += rowMatrixA[k] * columnB[k];
+                }
+                matrixC[rowA][colB] = sum;
+            }
+        }
+        return matrixC;
+
     }
 
     public static int[][] create(int size) {

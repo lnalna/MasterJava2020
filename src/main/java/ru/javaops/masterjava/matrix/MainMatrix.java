@@ -18,18 +18,33 @@ public class MainMatrix {
         final int[][] matrixA = MatrixUtil.create(MATRIX_SIZE);
         final int[][] matrixB = MatrixUtil.create(MATRIX_SIZE);
 
-        double singleThreadSum = 0.;
+        double singleThreadSum0 = 0.;
+        double singleThreadSum1 = 0.;
+        double singleThreadSum2 = 0.;
         double concurrentThreadSum = 0.;
         int count = 1;
         while (count < 6) {
             System.out.println("Pass " + count);
             long start = System.currentTimeMillis();
-            final int[][] matrixC = MatrixUtil.singleThreadMultiply(matrixA, matrixB);
+            final int[][] matrixC0 = MatrixUtil.singleThreadMultiply0(matrixA, matrixB);
             double duration = (System.currentTimeMillis() - start) / 1000.;
-            out("Single thread time, sec: %.3f", duration);
-            singleThreadSum += duration;
+            out("SingleThreadSum0 time, sec: %.10f", duration);
+            singleThreadSum0 += duration;
 
             start = System.currentTimeMillis();
+            final int[][] matrixC1 = MatrixUtil.singleThreadMultiply1(matrixA, matrixB);
+            duration = (System.currentTimeMillis() - start) / 1000.;
+            out("SingleThreadSum1 time, sec: %.10f", duration);
+            singleThreadSum1 += duration;
+
+            start = System.currentTimeMillis();
+            final int[][] matrixC2 = MatrixUtil.singleThreadMultiply2(matrixA, matrixB);
+            duration = (System.currentTimeMillis() - start) / 1000.;
+            out("SingleThreadSum2 time, sec: %.10f", duration);
+            singleThreadSum2 += duration;
+
+
+           /* start = System.currentTimeMillis();
             final int[][] concurrentMatrixC = MatrixUtil.concurrentMultiply(matrixA, matrixB, executor);
             duration = (System.currentTimeMillis() - start) / 1000.;
             out("Concurrent thread time, sec: %.3f", duration);
@@ -39,11 +54,22 @@ public class MainMatrix {
                 System.err.println("Comparison failed");
                 break;
             }
+            */
+            if (!MatrixUtil.compare(matrixC0, matrixC1)) {
+                System.err.println("Comparison matrixC0 and matrixC1 failed");
+                break;
+            }
+            if (!MatrixUtil.compare(matrixC0, matrixC2)) {
+                System.err.println("Comparison matrixC0 and matrixC2 failed");
+                break;
+            }
             count++;
         }
         executor.shutdown();
-        out("\nAverage single thread time, sec: %.3f", singleThreadSum / 5.);
-        out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
+        out("\nAverage SingleThreadSum0 / 5 time, sec: %.10f", singleThreadSum0 / 5.);
+        out("\nAverage SingleThreadSum1 / 5 time, sec: %.10f", singleThreadSum1 / 5.);
+        out("\nAverage SingleThreadSum2 / 5 time, sec: %.10f", singleThreadSum2 / 5.);
+        //   out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
     }
 
     private static void out(String format, double ms) {
