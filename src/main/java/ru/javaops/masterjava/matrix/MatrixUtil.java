@@ -1,10 +1,9 @@
 package ru.javaops.masterjava.matrix;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;
 
 /**
  * gkislin
@@ -12,7 +11,6 @@ import java.util.concurrent.ExecutorService;
  */
 public class MatrixUtil {
 
-    // TODO implement parallel multiplication matrixA*matrixB
     public static int[][] concurrentMultiply(int[][] matrixA, int[][] matrixB, ExecutorService executor) throws InterruptedException, ExecutionException {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
@@ -60,7 +58,40 @@ public class MatrixUtil {
         return matrixC;
     }
 
-    // TODO optimize by https://habrahabr.ru/post/114797/
+    public static int[][] concurrentMultiply2(int[][] matrixA, int[][] matrixB, ExecutorService executor) throws InterruptedException, ExecutionException {
+        final int matrixSize = matrixA.length;
+        final int[][] matrixC = new int[matrixSize][];
+
+        final int[][] matrixBT = new int[matrixSize][matrixSize];
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                matrixBT[i][j] = matrixB[j][i];
+            }
+        }
+
+        List<Callable<Void>> tasks = new ArrayList<>(matrixSize);
+        for (int i = 0; i < matrixSize; i++) {
+            final int row = i;
+            tasks.add(() -> {
+                final int[] rowC = new int[matrixSize];
+                for (int col = 0; col < matrixSize; col++) {
+                    final int[] rowA = matrixA[row];
+                    final int[] columnB = matrixBT[col];
+                    int sum = 0;
+                    for (int k = 0; k < matrixSize; k++) {
+                        sum += rowA[k] * columnB[k];
+                    }
+                    rowC[col] = sum;
+                }
+                matrixC[row] = rowC;
+                return null;
+            });
+        }
+        executor.invokeAll(tasks);
+        return matrixC;
+    }
+
+    //optimize by https://habrahabr.ru/post/114797/
     public static int[][] singleThreadMultiply0(int[][] matrixA, int[][] matrixB) {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
