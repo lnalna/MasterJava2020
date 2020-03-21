@@ -1,6 +1,15 @@
 <Payload xmlns="http://javaops.ru"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://javaops.ru payload.xsd">
+
+    <Projects>
+        <Project name="topjava">
+            <description>TopJava</description>
+        </Project>
+        <Project name="masterjava">
+            <description>MasterJava</description>
+        </Project>
+    </Projects>
     <Users>
         <User flag="active" city="kiv">
             <email>gmail@gmail.com</email>
