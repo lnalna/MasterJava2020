@@ -5,9 +5,15 @@
     <Projects>
         <Project name="topjava">
             <description>TopJava</description>
+            <Group name="topjava01" type="REGISTERING"/>
+            <Group name="topjava02" type="CURRENT"/>
+            <Group name="topjava03" type="FINISHED"/>
         </Project>
         <Project name="masterjava">
             <description>MasterJava</description>
+            <Group name="masterjava01" type="REGISTERING"/>
+            <Group name="masterjava02" type="CURRENT"/>
+            <Group name="masterjava03" type="FINISHED"/>
         </Project>
     </Projects>
     <Users>

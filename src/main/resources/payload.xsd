@@ -36,6 +36,14 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="description"/>
+                <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                    <xs:element name="Group">
+                        <xs:complexType>
+                            <xs:attribute type="xs:ID" name="name" use="required"/>
+                            <xs:attribute type="groupType" name="type" use="required"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
             </xs:sequence>
             <xs:attribute type="xs:string" name="name" use="required"/>
         </xs:complexType>
@@ -57,6 +65,14 @@
             <xs:enumeration value="active"/>
             <xs:enumeration value="deleted"/>
             <xs:enumeration value="superuser"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="groupType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="REGISTERING"/>
+            <xs:enumeration value="CURRENT"/>
+            <xs:enumeration value="FINISHED"/>
         </xs:restriction>
     </xs:simpleType>
 
