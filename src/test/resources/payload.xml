@@ -5,27 +5,24 @@
     <Projects>
         <Project name="topjava">
             <description>TopJava</description>
-            <Group name="topjava01" type="REGISTERING"/>
-            <Group name="topjava02" type="CURRENT"/>
+            <Group name="topjava01" type="FINISHED"/>
+            <Group name="topjava02" type="FINISHED"/>
             <Group name="topjava03" type="FINISHED"/>
+            <Group name="topjava07" type="FINISHED"/>
+            <Group name="topjava08" type="CURRENT"/>
         </Project>
         <Project name="masterjava">
             <description>MasterJava</description>
-            <Group name="masterjava01" type="REGISTERING"/>
-            <Group name="masterjava02" type="CURRENT"/>
-            <Group name="masterjava03" type="FINISHED"/>
+            <Group name="masterjava01" type="FINISHED"/>
+            <Group name="masterjava02" type="FINISHED"/>
+            <Group name="masterjava03" type="CURRENT"/>
+            <Group name="masterjava04" type="REGISTERING"/>
         </Project>
     </Projects>
     <Users>
-        <User flag="active" city="kiv" email="gmail@gmail.com">
-            <fullName>Full Name</fullName>
-        </User>
-        <User flag="superuser" city="spb" email="admin@javaops.ru">
-            <fullName>Admin</fullName>
-        </User>
-        <User flag="deleted" city="spb" email="mail@yandex.ru">
-            <fullName>Deleted</fullName>
-        </User>
+        <User flag="superuser" city="spb" email="admin@javaops.ru" groupRefs="topjava07 topjava08 masterjava01">Admin</User>
+        <User flag="active" city="kiv" email="gmail@gmail.com" groupRefs="topjava01">Full Name</User>
+        <User flag="deleted" city="spb" email="mail@yandex.ru" groupRefs="topjava02">Deleted</User>
     </Users>
     <Cities>
         <City id="spb">Санкт-Петербург</City>
