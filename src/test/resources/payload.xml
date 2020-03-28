@@ -19,14 +19,19 @@
             <Group name="masterjava04" type="REGISTERING"/>
         </Project>
     </Projects>
-    <Users>
-        <User flag="superuser" city="spb" email="admin@javaops.ru" groupRefs="topjava07 topjava08 masterjava01">Admin</User>
-        <User flag="active" city="kiv" email="gmail@gmail.com" groupRefs="topjava01">Full Name</User>
-        <User flag="deleted" city="spb" email="mail@yandex.ru" groupRefs="topjava02">Deleted</User>
-    </Users>
     <Cities>
+        <City id="msk">Москва</City>
+        <City id="tvr">Тверь</City>
         <City id="spb">Санкт-Петербург</City>
         <City id="kiv">Киев</City>
         <City id="mnsk">Минск</City>
     </Cities>
+    <Users>
+        <User flag="superuser" city="spb" email="admin@javaops.ru" groupRefs="topjava07 topjava08 masterjava01">Admin</User>
+        <User flag="active" city="kiv" email="gmail@gmail.com" groupRefs="topjava01">Full Name</User>
+        <User flag="deleted" city="spb" email="mail@yandex.ru" groupRefs="topjava02">Deleted</User>
+        <User flag="active" city="msk" email="google1@gmail.com" groupRefs="masterjava03">User1</User>
+        <User flag="active" city="msk" email="google2@gmail.com" groupRefs="masterjava04">User2</User>
+        <User flag="active" city="tvr" email="google3@gmail.com" groupRefs="masterjava04">User3</User>
+    </Users>
 </Payload>
