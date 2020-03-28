@@ -52,11 +52,11 @@
     <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="email"/>
                 <xs:element type="xs:string" name="fullName"/>
             </xs:sequence>
             <xs:attribute type="flagType" name="flag" use="required"/>
             <xs:attribute type="xs:IDREF" name="city" use="required"/>
+            <xs:attribute type="emailType" name="email"/>
         </xs:complexType>
     </xs:element>
 
@@ -85,4 +85,10 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
+<!-- http://regexlib.com/REDetails.aspx?regexp_id=541&AspxAutoDetectCookieSupport=1   -->
+    <xs:simpleType name="emailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
