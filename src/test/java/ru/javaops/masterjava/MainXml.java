@@ -2,6 +2,7 @@ package ru.javaops.masterjava;
 
 import com.google.common.base.Splitter;
 import com.google.common.io.Resources;
+import j2html.tags.ContainerTag;
 import ru.javaops.masterjava.xml.schema.ObjectFactory;
 import ru.javaops.masterjava.xml.schema.Payload;
 import ru.javaops.masterjava.xml.schema.Project;
@@ -14,11 +15,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.nullToEmpty;
+import static j2html.TagCreator.*;
 
 public class MainXml {
     private static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getValue).thenComparing(User::getEmail);
@@ -43,6 +48,11 @@ public class MainXml {
             System.out.println("name=" + user.getValue() + " email=" + user.getEmail());
         }
 
+        String html = toHtml(users, projectName);
+        System.out.println(html);
+        try (Writer writer = Files.newBufferedWriter(Paths.get("out/users.html"))) {
+            writer.write(html);
+        }
     }
 
     private static Set<User> jaxbParser(String projectName, URL payloadUrl) throws IOException, JAXBException {
@@ -100,5 +110,20 @@ public class MainXml {
             }
             return users;
         }
+    }
+
+    private static String toHtml(Set<User> users, String projectName) {
+        final ContainerTag table = table().with(
+                tr().with(th("FullName"), th("email")))
+                .attr("border", "1")
+                .attr("cellpadding", "8")
+                .attr("cellspacing", "0");
+
+        users.forEach(u -> table.with(tr().with(td(u.getValue()), td(u.getEmail()))));
+
+        return html().with(
+                head().with(title(projectName + " users")),
+                body().with(h1(projectName + " users"), table)
+        ).render();
     }
 }
