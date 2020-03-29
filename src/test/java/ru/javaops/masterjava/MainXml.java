@@ -12,14 +12,17 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class MainXml {
     private static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getValue);
 
     public static void main(String[] args) throws IOException, JAXBException {
-       // args[0] = "topjava";
+        // args[0] = "topjava";
         if (args.length != 1) {
             System.out.println("Error: Input Project Name");
             System.exit(1);
@@ -29,7 +32,7 @@ public class MainXml {
 
         Set<User> users = jaxbParser(projectName, payloadUrl);
         for (User user : users) {
-            System.out.println(user.getValue());
+            System.out.println("name=" + user.getValue() + " email=" + user.getEmail());
         }
     }
 
